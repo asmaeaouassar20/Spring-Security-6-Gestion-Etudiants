@@ -1,6 +1,8 @@
 package algostyle.security.StudentManagement.controller;
 
 import algostyle.security.StudentManagement.model.Student;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,9 +35,16 @@ public class StudentController {
     }
 
 
+
+    @PreAuthorize("hasRole('ADMIN')") // Cette annotation restreint l'accès à la méthode pour que seuls les utilisateurs ayant le rôle ADMIN puissent exécuter l'opération
     @PostMapping("/students")
     public Student createStudent(@RequestBody Student student){
         students.add(student);
         return student;
     }
+
+    /**
+     * @PreAuthorize : vérifie les permissions avant l'exécution de la méthode
+     * @PostAuthorize : Vérifier les permissions après l'exécution de la méthode (souvent pour valider le résultat)
+     */
 }
